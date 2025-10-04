@@ -11,7 +11,31 @@
       color: #00ff00;
       margin: 0;
       padding: 0;
+      position: relative;
+      overflow-x: hidden;
     }
+    /* CRT Scanline */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 0, 0.1),
+        rgba(0, 255, 0, 0.1) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      animation: flicker 0.15s infinite;
+      z-index: 1000;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.2; }
+    }
+
     header {
       padding: 2rem;
       text-align: center;
@@ -21,17 +45,53 @@
     h1 {
       margin: 0;
       font-size: 2rem;
+      color: #00ff00;
+      text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
     }
-    p {
-      color: #0f0;
-      font-size: 1.1rem;
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #00ff00;
+      margin-left: 5px;
+      animation: blink 1s step-start infinite;
     }
+    @keyframes blink {
+      50% { background-color: transparent; }
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: #111;
+      border-bottom: 1px solid #00ff00;
+    }
+    .tab {
+      padding: 1rem 2rem;
+      cursor: pointer;
+      color: #00ff00;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+    .tab.active {
+      background: #00ff00;
+      color: #000;
+    }
+    .tab:hover {
+      background: #0f0;
+      color: #000;
+    }
+
+    /* Content */
     .container {
       padding: 2rem;
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       gap: 1rem;
+    }
+    .container.active {
+      display: flex;
     }
     .link-card {
       background-color: #111;
@@ -42,60 +102,91 @@
       width: 90%;
       max-width: 600px;
       transition: 0.2s;
+      box-shadow: 0 0 8px rgba(0,255,0,0.3);
     }
     .link-card:hover {
       background-color: #0f0;
       color: #000;
+      box-shadow: 0 0 20px #0f0;
     }
     .link-card a {
       color: #00ff00;
       text-decoration: none;
       font-weight: bold;
       font-size: 1.2rem;
+      text-shadow: 0 0 5px #0f0;
     }
     .link-card:hover a {
       color: #000;
+      text-shadow: none;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>ToMs_Pro</h1>
+    <h1>ToMs_Pro<span class="cursor"></span></h1>
     <p>-o-</p>
   </header>
-  <div class="container">
-   <div class="link-card">
-      <a href="https://linktr.ee/apps_kib" target="_blank">🔗 APK KIB</a>
-    </div>
-      <div class="link-card">
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('tools')">TOOLS</div>
+    <div class="tab" onclick="showTab('links')">LINKS</div>
+    <div class="tab" onclick="showTab('apps')">APPS</div>
+  </div>
+
+  <!-- TOOLS TAB -->
+  <div id="tools" class="container active">
+    <div class="link-card">
       <a href="https://toms-pro.github.io/oftol/launcher.html" target="_blank">🔗 AKTIVASI AND NET</a>
     </div>
     <div class="link-card">
-      <a href="https://drive.google.com/file/d/1DdMyFHb1oxNz2m2YngnKdlsmz0uASnTo/view?usp=drive_link" target="_blank">🔗 REMOTE DESKTOP UT</a>
+      <a href="https://drive.google.com/file/d/1DdMyFHb1oxNz2m2YngnKdlsmz0uASnTo/view?usp=drive_link">🔗 REMOTE DESKTOP UT</a>
     </div>
     <div class="link-card">
-      <a href="https://drive.google.com/file/d/1DffVPP7Cldz5UVmuOBfzOy4sUKiAFMIZ/view?usp=drive_link" target="_blank">🔗 ANY DESK</a>
+      <a href="https://drive.google.com/file/d/1DffVPP7Cldz5UVmuOBfzOy4sUKiAFMIZ/view?usp=drive_link">🔗 ANY DESK</a>
+    </div>
+  </div>
+
+  <!-- LINKS TAB -->
+  <div id="links" class="container">
+    <div class="link-card">
+      <a href="https://drive.google.com/file/d/1PvXIRC6jTCKvBAVIE7mPcZwIZSJ70Dh4/view?usp=drive_link">🔗 XPRINTER 420B</a>
     </div>
     <div class="link-card">
-      <a href="https://drive.google.com/file/d/1PvXIRC6jTCKvBAVIE7mPcZwIZSJ70Dh4/view?usp=drive_link" target="_blank">🔗 XPRINTER 420B</a>
+      <a href="https://kib-management.s3.ap-southeast-1.amazonaws.com/kib-application/NokoPrint+v5.23.6+(Premium).apk">🔗 NokoPrint Premium</a>
     </div>
     <div class="link-card">
-      <a href="https://drive.google.com/file/d/1DWp-0nW8b3zzyTbNqQLLjaMGc7E6tGnX/view?usp=drive_link" target="_blank">🔗 DRIVER 6030</a>
+      <a href="https://drive.google.com/file/d/1DWp-0nW8b3zzyTbNqQLLjaMGc7E6tGnX/view?usp=drive_link">🔗 DRIVER 6030</a>
     </div>
     <div class="link-card">
-      <a href="https://drive.google.com/file/d/1NCc9b0NGBrR1XJ_5cC3UwEkzFR_32T0Q/view?usp=drive_link" target="_blank">🔗 DRIVER M12W</a>
-    </div>
-    <div class="link-card">
-      <a href="https://drive.google.com/file/d/1y3VqRhI7xXi6u2PEr-krapzNeUUklJKH/view?usp=drive_link" target="_blank">🔗 FIREFOX 7.9</a>
-    </div>
-    <div class="link-card">
-      <a href="https://drive.google.com/file/d/1yEqBtyEHVqYXJXrktJ0iB_AK0h8M9Eyx/view?usp=drive_link" target="_blank">🔗 DRIVER HP1100</a>
+      <a href="https://drive.google.com/file/d/1NCc9b0NGBrR1XJ_5cC3UwEkzFR_32T0Q/view?usp=drive_link">🔗 DRIVER M12W</a>
     </div>
     <div class="link-card">
       <a href="https://github.com/ToMS-pro" target="_blank">🔗 TOMS-PRO GITHUB</a>
     </div>
   </div>
 
+  <!-- APPS TAB -->
+  <div id="apps" class="container">
+    <div class="link-card">
+      <a href="https://kib-management.s3.ap-southeast-1.amazonaws.com/kib-application/driver.apk">🔗 DRIVER APP</a>
+    </div>
+    <div class="link-card">
+      <a href="https://kib-management.s3.ap-southeast-1.amazonaws.com/kib-application/tally.apk">🔗 TALLY APP</a>
+    </div>
+    <div class="link-card">
+      <a href="https://kib-management.s3.ap-southeast-1.amazonaws.com/kib-application/pengawal.apk">🔗 PENGAWAL APP</a>
+    </div>
+  </div>
+
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      document.querySelector('.tab[onclick="showTab(\''+id+'\')"]').classList.add('active');
+      document.getElementById(id).classList.add('active');
+    }
+  </script>
 </body>
 </html>
